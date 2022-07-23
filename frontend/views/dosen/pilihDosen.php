@@ -41,11 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'summary' => '*Wajib Memberikan 3 Pilihan'
     ]); ?>
 
-    <!-- <script>
+</div>
+<script>
         //FUNCTION BUTTON SUBMIT
         function insertPilihan() {
             //MENGAMBIL VALUE NID DARI CHECKBOX YANG DIPILIH
-            var current = '<?= Yii::$app->controller->id; ?>';
+            var currentController = '<?= Yii::$app->controller->id; ?>';
             var val = $('input[type=checkbox]:checked').map(function(_, el) {
                 var val = $(el).val();
                 return val;
@@ -71,35 +72,34 @@ $this->params['breadcrumbs'][] = $this->title;
                     cancelButtonText: 'Batal',
                     showLoaderOnConfirm: true,
                     preConfirm: function() {
-                        return new Promise(function(resolve) {
+                        return new Promise(function() {
                             $.ajax({
-                                    url: 'http://localhost/ta/frontend/web/site/insert',
+                                url: '<?= BaseUrl::base(); ?>/site/insert',
                                     type: 'POST',
                                     dataType: 'json',
                                     data: {
                                         datas: val,
-                                        controller: current
+                                        controller: currentController
                                     }
                                 })
                                 .done(function(response) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: response.response_message,
-                                        confirmButtonColor: '#1cc88a',
-                                    }).then(function() {
-                                        window.location.href = '<?= BaseUrl::base(); ?>';
-                                    });
-                                })
-                                .fail(function(response) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: response.response_message,
-                                        confirmButtonColor: '#1cc88a',
-                                    }).then(function() {
-                                        window.location.href = '<?= BaseUrl::base(); ?>';
-                                    });
+                                    if (response.code == 200) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Success',
+                                            text: response.response_message,
+                                            confirmButtonColor: '#1cc88a',
+                                        }).then(function() {
+                                            window.location.href = '<?= BaseUrl::base(); ?>';
+                                        });
+                                    } else if (response.code != 200) {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error',
+                                            text: response.response_message,
+                                            confirmButtonColor: '#1cc88a',
+                                        });
+                                    }
                                 });
                         });
                     },
@@ -119,5 +119,4 @@ $this->params['breadcrumbs'][] = $this->title;
                 })
             }
         });
-    </script> -->
-</div>
+    </script>

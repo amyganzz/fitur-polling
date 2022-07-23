@@ -114,7 +114,6 @@ class SiteController extends Controller
      */
     public function actionInsert()
     {
-
         if (isset($_POST['datas'])) {
 
             try {
@@ -127,59 +126,47 @@ class SiteController extends Controller
                 $data = trim($encode, '[]');
 
                 if ($currentController == 'dosen') {
-                    try {
-                        $db->createCommand(
-                            "UPDATE dosen SET total_polling = total_polling + 1 WHERE nid in ($data)"
-                        )->execute();
-                        $transaction->commit();
+                    $db->createCommand(
+                        "UPDATE dosen SET total_polling = total_polling + 1 WHERE nid in ($data)"
+                    )->execute();
+                    $transaction->commit();
 
-                        $response = array(
-                            "response_message" => "Berhasil Memilih Dosen!",
-                            "data" => $data
-                        );
+                    $response = array(
+                        "response_message" => "Berhasil Memilih Dosen!",
+                        "code" => 200
+                    );
 
-                        echo json_encode($response);
-                    } catch (\Exception $e) {
-                        $transaction->rollBack();
-                        throw $e;
-                    } catch (\Throwable $e) {
-                        $transaction->rollBack();
-                        throw $e;
-                    }
+                    echo json_encode($response);
+
                 } else if ($currentController == 'mahasiswa') {
-                    try {
-                        $db->createCommand(
-                            "UPDATE mahasiswa SET total_polling = total_polling + 1 WHERE nim in ($data)"
-                        )->execute();
-                        $transaction->commit();
+                    $db->createCommand(
+                        "UPDATE mahasiswa SET total_polling = total_polling + 1 WHERE nim in ($data)"
+                    )->execute();
+                    $transaction->commit();
 
-                        $response = array(
-                            "response_message" => "Berhasil Memilih Mahasiswa!",
-                            "data" => $data
-                        );
+                    $response = array(
+                        "response_message" => "Berhasil Memilih Mahasiswa!",
+                        "code" => 200
+                    );
 
-                        echo json_encode($response);
-                    } catch (\Exception $e) {
-                        $transaction->rollBack();
-                        throw $e;
-                    } catch (\Throwable $e) {
-                        $transaction->rollBack();
-                        throw $e;
-                    }
-                } 
+                    echo json_encode($response);
+
+                }
             } catch (\Exception $e) {
-                // $transaction->rollBack();
-                // echo $e;die();
-                var_dump($e);die();
-                throw $e;
+                $response = array(
+                    "response_message" => $e->errorInfo[2],
+                    "code" => 500
+                );
+
+                echo json_encode($response);
             }
-        }
-        else {
+        } else {
             $response = array(
-                "response_message" => "Not found",
-                "code" => 404
-            );
-            echo json_encode($response);
+                    "response_message" => 'Not Found',
+                    "code" => 404
+                );
+                
+                echo json_encode($response);
         }
     }
 
