@@ -8,7 +8,8 @@ use Yii;
  * This is the model class for table "dosen".
  *
  * @property int $nid
- * @property string|null $nama
+ * @property string $nama
+ * @property int|null $total_polling
  */
 class Dosen extends \yii\db\ActiveRecord
 {
@@ -26,8 +27,8 @@ class Dosen extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nid'], 'required'],
-            [['nid'], 'integer'],
+            [['nid', 'nama'], 'required'],
+            [['nid', 'total_polling'], 'integer'],
             [['nama'], 'string', 'max' => 64],
             [['nid'], 'unique'],
         ];
@@ -41,6 +42,7 @@ class Dosen extends \yii\db\ActiveRecord
         return [
             'nid' => 'Nid',
             'nama' => 'Nama',
+            'total_polling' => 'Total Polling',
         ];
     }
 }

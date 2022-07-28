@@ -8,8 +8,9 @@ use Yii;
  * This is the model class for table "mahasiswa".
  *
  * @property int $nim
- * @property string|null $nama
+ * @property string $nama
  * @property string|null $prodi
+ * @property int|null $total_polling
  */
 class Mahasiswa extends \yii\db\ActiveRecord
 {
@@ -27,10 +28,9 @@ class Mahasiswa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nim'], 'required'],
-            [['nim'], 'integer'],
-            [['nama'], 'string', 'max' => 64],
-            [['prodi'], 'string', 'max' => 32],
+            [['nim', 'nama'], 'required'],
+            [['nim', 'total_polling'], 'integer'],
+            [['nama', 'prodi'], 'string', 'max' => 64],
             [['nim'], 'unique'],
         ];
     }
@@ -44,6 +44,7 @@ class Mahasiswa extends \yii\db\ActiveRecord
             'nim' => 'Nim',
             'nama' => 'Nama',
             'prodi' => 'Prodi',
+            'total_polling' => 'Total Polling',
         ];
     }
 }
