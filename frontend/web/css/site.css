@@ -92,3 +92,13 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.circle-div {
+    background-color: #314963;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 21px;
+    right: 25px;
+}
